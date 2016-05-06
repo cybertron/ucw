@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+import os
+
+virtenv = os.environ['OPENSHIFT_PYTHON_DIR'] + '/virtenv/'
+virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
+try:
+    execfile(virtualenv, dict(__file__=virtualenv))
+except IOError:
+    pass
+
 # requires: pyramid, netaddr, jinja2
 
 import jinja2
@@ -92,6 +101,8 @@ if __name__ == '__main__':
     conf.add_route('ucw', '/ucw')
     conf.scan()
     app = conf.make_wsgi_app()
-    server = make_server('0.0.0.0', 80, app)
+    ip = os.environ['OPENSHIFT_PYTHON_IP']
+    port = int(os.environ['OPENSHIFT_PYTHON_PORT']
+    server = make_server(ip, port, app)
     server.serve_forever()
 
