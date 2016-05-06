@@ -1,0 +1,70 @@
+<html>
+<head>
+    <title>Undercloud Configuration Wizard</title>
+</head>
+<body>
+<center>
+<h1>Undercloud Configuration Wizard</h1>
+<form method='get'>
+<table>
+    <tr>
+        <td colspan='2'><center><h3>Basic Settings</h3></center></td>
+    </tr>
+    <tr>
+        <td>Provisioning Interface</td> <td><input type='text' name='local_interface' value="{{local_interface}}"></td>
+    </tr>
+    <tr>
+        <td>Provisioning CIDR</td> <td><input type='text' name='network_cidr' value='{{network_cidr}}'></td>
+    </tr>
+    <tr>
+        <td>Overcloud Node Count</td> <td><input type='number' name='node_count' pattern="[0-9]*" inputmode="numeric" value='{{node_count}}'></td>
+    </tr>
+    <tr>
+        <td colspan='2'><center><input type='submit' value='Generate Advanced'></center></td>
+    </tr>
+<table>
+{% if error != '' %}
+    <tr>
+        <td colspan='2'><center><p style='color:red; font-weight:bold'>{{error}}</p></center></td>
+    </tr>
+{% else %}
+<table>
+    <tr>
+        <td colspan='2'><center><h3>Advanced Settings</h3></center></td>
+    </tr>
+    <tr>
+        <td>Hostname</td> <td><input type='text' name='hostname' value="{{hostname}}"></td>
+    </tr>
+    <tr>
+        <td>Local IP</td> <td><input type='text' name='local_ip' value="{{local_ip}}"></td>
+    </tr>
+    <tr>
+        <td>Network Gateway</td> <td><input type='text' name='network_gateway' value="{{network_gateway}}"></td>
+    </tr>
+    <tr>
+        <td>Public VIP</td> <td><input type='text' name='undercloud_public_vip' value="{{undercloud_public_vip}}"></td>
+    </tr>
+    <tr>
+        <td>Admin VIP</td> <td><input type='text' name='undercloud_admin_vip' value="{{undercloud_admin_vip}}"></td>
+    </tr>
+    <tr>
+        <td>Provisioning DHCP Start</td> <td><input type='text' name='dhcp_start' value="{{dhcp_start}}"></td>
+    </tr>
+    <tr>
+        <td>Provisioning DHCP End</td> <td><input type='text' name='dhcp_end' value="{{dhcp_end}}"></td>
+    </tr>
+    <tr>
+        <td>Inspection DHCP Start</td> <td><input type='text' name='inspection_start' value="{{inspection_start}}"></td>
+    </tr>
+    <tr>
+        <td>Inspection DHCP End</td> <td><input type='text' name='inspection_end' value="{{inspection_end}}"></td>
+    </tr>
+     <tr>
+        <td colspan='2'><center><input type='submit' value='Generate Configuration' name='generate'></center></td>
+    </tr>
+{% endif %}
+</table>
+</form>
+</center>
+</body>
+</html>
