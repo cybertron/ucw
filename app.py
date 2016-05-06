@@ -92,6 +92,6 @@ if __name__ == '__main__':
     conf.add_route('ucw', '/ucw')
     conf.scan()
     app = conf.make_wsgi_app()
-    server = make_server('0.0.0.0', 8080, app)
+    server = make_server('0.0.0.0', 80, app)
     server.serve_forever()
 
