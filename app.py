@@ -101,7 +101,7 @@ def ucw(request):
 
 if __name__ == '__main__':
     conf = config.Configurator()
-    conf.add_route('ucw', '/ucw')
+    conf.add_route('ucw', '/')
     conf.scan()
     app = conf.make_wsgi_app()
     ip = os.environ['OPENSHIFT_PYTHON_IP']
