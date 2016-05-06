@@ -1,10 +1,9 @@
 from setuptools import setup
 
-setup(name='YourAppName',
-      version='1.0',
-      description='OpenShift App',
-      author='Your Name',
-      author_email='example@example.com',
+setup(name='Undercloud Configuration Wizard',
+      version='0.1',
+      description='Tool for generating TripleO undercloud configurations',
+      author='Ben Nemec',
+      author_email='bnemec@redhat.com',
       url='http://www.python.org/sigs/distutils-sig/',
-#      install_requires=['Django>=1.3'],
      )
