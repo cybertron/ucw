@@ -105,7 +105,7 @@ if __name__ == '__main__':
     conf.scan()
     app = conf.make_wsgi_app()
     ip = os.environ['OPENSHIFT_PYTHON_IP']
-    port = int(os.environ['OPENSHIFT_PYTHON_PORT']
+    port = int(os.environ['OPENSHIFT_PYTHON_PORT'])
     server = make_server(ip, port, app)
     server.serve_forever()
 
