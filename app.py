@@ -10,6 +10,9 @@ except IOError:
     pass
 
 # requires: pyramid, netaddr, jinja2
+import sys
+# hack to make sure we can load wsgi.py as a module in this class
+sys.path.insert(0, os.path.dirname(__file__))
 
 import jinja2
 import netaddr
