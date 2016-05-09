@@ -39,13 +39,17 @@ undercloud_admin_vip = %(undercloud_admin_vip)s
 dhcp_start = %(dhcp_start)s
 dhcp_end = %(dhcp_end)s
 inspection_iprange = %(inspection_start)s,%(inspection_end)s
+# This option name is deprecated and only included for compatibility with
+# OSP director 7 installs.
+discovery_iprange = %(inspection_start)s,%(inspection_end)s
 """
 default_basic = {'local_interface': 'eth1',
                  'network_cidr': '192.0.2.0/24',
                  'node_count': '2'}
 advanced_keys = ['hostname', 'local_ip', 'dhcp_start', 'dhcp_end',
-                 'introspection_start', 'introspection_end',
-                 'network_gateway', 'public_vip', 'admin_vip']
+                 'inspection_start', 'inspection_end',
+                 'network_gateway', 'undercloud_public_vip',
+                 'undercloud_admin_vip']
 # NOTE(bnemec): Adding an arbitrary 10 to the node count, to allow
 # for virtual ips.  This may not be accurate for some setups.
 virtual_ips = 10
@@ -57,10 +61,19 @@ class GeneratorError(RuntimeError):
     pass
 
 
+def err_callback(message):
+    raise GeneratorError(message)
+
+
 @view.view_config(route_name='ucw')
 def ucw(request):
     # Remove unset keys so we can use .get() to set defaults
     params = {k: v for k, v in request.params.items() if v}
+    # If generating advanced values, ignore any advanced values passed in
+    # as part of the request
+    if 'genadv' in params:
+        params = {k: v for k, v in params.items() if k not in advanced_keys}
+
     loader = jinja2.FileSystemLoader('templates')
     env = jinja2.Environment(loader=loader)
     if params.get('generate'):
@@ -79,23 +92,29 @@ def ucw(request):
             raise GeneratorError('Insufficient addresses available in '
                                  'provisioning CIDR')
         values['hostname'] = params.get('hostname', 'undercloud.localdomain')
-        values['local_ip'] = '%s/%s' % (str(cidr[1]), cidr.prefixlen)
-        values['network_gateway'] = cidr[1]
-        values['undercloud_public_vip'] = cidr[2]
-        values['undercloud_admin_vip'] = cidr[3]
+        values['local_ip'] = params.get('local_ip',
+                                        '%s/%s' % (str(cidr[1]),
+                                                   cidr.prefixlen))
+        values['network_gateway'] = params.get('network_gateway', cidr[1])
+        values['undercloud_public_vip'] = params.get('undercloud_public_vip',
+                                                     cidr[2])
+        values['undercloud_admin_vip'] = params.get('undercloud_admin_vip',
+                                                    cidr[3])
         # 4 to allow room for two undercloud vips
         dhcp_start = 1 + undercloud_ips
-        values['dhcp_start'] = cidr[dhcp_start]
+        values['dhcp_start'] = params.get('dhcp_start', cidr[dhcp_start])
         dhcp_end = dhcp_start + int(values['node_count']) + virtual_ips - 1
-        values['dhcp_end'] = cidr[dhcp_end]
+        values['dhcp_end'] = params.get('dhcp_end', cidr[dhcp_end])
         inspection_start = dhcp_end + 1
-        values['inspection_start'] = cidr[inspection_start]
+        values['inspection_start'] = params.get('inspection_start',
+                                                cidr[inspection_start])
         inspection_end = inspection_start + int(values['node_count']) - 1
-        values['inspection_end'] = cidr[inspection_end]
+        values['inspection_end'] = params.get('inspection_end',
+                                              cidr[inspection_end])
         values['masquerade_network'] = values['network_cidr']
         values['config'] = config_template.replace('\n', '<br>') % values
-        validator.validate_config(values, lambda x: None)
-    except (GeneratorError, validator.FailedValidation) as e:
+        validator.validate_config(values, err_callback)
+    except GeneratorError as e:
         values['error'] = str(e)
     return response.Response(t.render(**values))
 
