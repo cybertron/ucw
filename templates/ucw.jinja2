@@ -1,12 +1,32 @@
 <html>
 <head>
     <title>Undercloud Configuration Wizard</title>
+<style type='text/css'>
+a:link {color:#808080; text-decoration:none;}
+a:visited {color:#808080; text-decoration:none;}
+a:hover {color:#808080; text-decoration:underline;}
+a:active {color:#808080;}
+body
+{
+    background-image: url('http://tripleo.org/_static/header_bg.jpg');
+    background-repeat: repeat-x;
+}
+.sectionarea
+{
+    border: 5px solid #808080;
+    -moz-border-radius:15px;
+    border-radius:15px;
+    margin: 5px;
+    background: #e5e5e5;
+}
+</style>
 </head>
 <body>
 <center>
-<h1>Undercloud Configuration Wizard</h1>
+<a href='http://tripleo.org'><img src='http://tripleo.org/_static/tripleo_owl.svg' style='max-height: 100px'/></a>
+<h1><a href='/'>Undercloud Configuration Wizard</a></h1>
 <form method='get'>
-<table>
+<table class='sectionarea'>
     <tr>
         <td colspan='2'><center><h3>Basic Settings</h3></center></td>
     </tr>
@@ -22,13 +42,13 @@
     <tr>
         <td colspan='2'><center><input type='submit' value='Generate Advanced' name='genadv'></center></td>
     </tr>
-<table>
+</table>
 {% if error != '' %}
     <tr>
         <td colspan='2'><center><p style='color:red; font-weight:bold'>{{error}}</p></center></td>
     </tr>
 {% else %}
-<table>
+<table class='sectionarea'>
     <tr>
         <td colspan='2'><center><h3>Advanced Settings</h3></center></td>
     </tr>
@@ -54,13 +74,16 @@
         <td>Provisioning DHCP End</td> <td><input type='text' name='dhcp_end' value="{{dhcp_end}}"></td>
     </tr>
     <tr>
-        <td>Inspection DHCP Start</td> <td><input type='text' name='inspection_start' value="{{inspection_start}}"></td>
+        <td>Inspection* DHCP Start</td> <td><input type='text' name='inspection_start' value="{{inspection_start}}"></td>
     </tr>
     <tr>
-        <td>Inspection DHCP End</td> <td><input type='text' name='inspection_end' value="{{inspection_end}}"></td>
+        <td>Inspection* DHCP End</td> <td><input type='text' name='inspection_end' value="{{inspection_end}}"></td>
     </tr>
      <tr>
         <td colspan='2'><center><input type='submit' value='Generate Configuration' name='generate'></center></td>
+    </tr>
+    <tr>
+        <td colspan='2'>* Inspection was named Discovery in previous versions</td>
     </tr>
 {% endif %}
 </table>
