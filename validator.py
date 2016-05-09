@@ -29,10 +29,32 @@ def validate_config(params, error_callback):
         a string describing the error.
     """
     local_params = dict(params)
+    _validate_value_formats(local_params, error_callback)
     _validate_in_cidr(local_params, error_callback)
     _validate_dhcp_range(local_params, error_callback)
     _validate_inspection_range(local_params, error_callback)
     _validate_no_overlap(local_params, error_callback)
+
+
+def _validate_value_formats(params, error_callback):
+    """Validate format of some values
+
+    Certain values have a specific format that must be maintained in order to
+    work properly.  For example, local_ip must be in CIDR form, and the
+    hostname must be a FQDN.
+    """
+    try:
+        local_ip = netaddr.IPNetwork(params['local_ip'])
+        if local_ip.prefixlen == 32:
+            raise netaddr.AddrFormatError('Invalid netmask')
+    except netaddr.core.AddrFormatError as e:
+        message = ('local_ip "%s" not valid: "%s" '
+                   'Value must be in CIDR format.' %
+                   (params['local_ip'], str(e)))
+        error_callback(message)
+    if '.' not in params['hostname']:
+        message = 'Hostname "%s" is not fully qualified.' % params['hostname']
+        error_callback(message)
 
 
 def _validate_in_cidr(params, error_callback):
@@ -94,4 +116,3 @@ def _validate_no_overlap(params, error_callback):
                    (params['inspection_start'], params['inspection_end'],
                     params['dhcp_start'], params['dhcp_end']))
         error_callback(message)
-

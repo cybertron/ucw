@@ -52,13 +52,13 @@ function ood()
         <td colspan='2'><center><input type='submit' value='Generate Advanced' name='genadv'></center></td>
     </tr>
 </table>
-<!-- Allons-y! -->
-<span id='ood_message' style='display:none; color:red'>Advanced values may be out of date. Regeneration recommended.</span>
 {% if error != '' %}
     <tr>
         <td colspan='2'><center><p style='color:red; font-weight:bold'>{{error}}</p></center></td>
     </tr>
 {% else %}
+<!-- Allons-y! -->
+<span id='ood_message' style='display:none; color:red'>Advanced values may be out of date. Regeneration recommended.</span>
 <table class='sectionarea'>
     <tr>
         <td colspan='2'><center><h3>Advanced Settings</h3></center></td>
