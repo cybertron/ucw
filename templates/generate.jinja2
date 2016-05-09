@@ -1,4 +1,7 @@
 <html>
+{% if error == '' %}
 {{ config }}
+{% else %}
+<font style='color:red; font-weight:bold'>ERROR: {{ error }}</font>
+{% endif %}
 </html>
-
