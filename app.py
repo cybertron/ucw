@@ -2,12 +2,14 @@
 
 import os
 
-virtenv = os.environ['OPENSHIFT_PYTHON_DIR'] + '/virtenv/'
-virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
-try:
-    execfile(virtualenv, dict(__file__=virtualenv))
-except IOError:
-    pass
+# When we're running locally we don't need to do this.
+if 'OPENSHIFT_PYTHON_DIR' in os.environ:
+    virtenv = os.environ['OPENSHIFT_PYTHON_DIR'] + '/virtenv/'
+    virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
+    try:
+        execfile(virtualenv, dict(__file__=virtualenv))
+    except IOError:
+        pass
 
 # requires: pyramid, netaddr, jinja2
 import sys
