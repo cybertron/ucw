@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>Undercloud Configuration Wizard</title>
+
 <style type='text/css'>
 a:link {color:#808080; text-decoration:none;}
 a:visited {color:#808080; text-decoration:none;}
@@ -20,6 +21,14 @@ body
     background: #e5e5e5;
 }
 </style>
+
+<script type='text/javascript'>
+function ood()
+{
+    document.getElementById('ood_message').style.display = 'block';
+}
+</script>
+
 </head>
 <body>
 <center>
@@ -34,15 +43,17 @@ body
         <td>Provisioning Interface</td> <td><input type='text' name='local_interface' value="{{local_interface}}"></td>
     </tr>
     <tr>
-        <td>Provisioning CIDR</td> <td><input type='text' name='network_cidr' value='{{network_cidr}}'></td>
+        <td>Provisioning CIDR</td> <td><input type='text' name='network_cidr' value='{{network_cidr}}' onchange='ood()'></td>
     </tr>
     <tr>
-        <td>Overcloud Node Count</td> <td><input type='number' name='node_count' pattern="[0-9]*" inputmode="numeric" value='{{node_count}}'></td>
+        <td>Overcloud Node Count</td> <td><input type='number' name='node_count' pattern="[0-9]*" inputmode="numeric" value='{{node_count}}' onchange='ood()'></td>
     </tr>
     <tr>
         <td colspan='2'><center><input type='submit' value='Generate Advanced' name='genadv'></center></td>
     </tr>
 </table>
+<!-- Allons-y! -->
+<span id='ood_message' style='display:none; color:red'>Advanced values may be out of date. Regeneration recommended.</span>
 {% if error != '' %}
     <tr>
         <td colspan='2'><center><p style='color:red; font-weight:bold'>{{error}}</p></center></td>
