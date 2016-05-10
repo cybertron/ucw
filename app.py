@@ -67,8 +67,12 @@ def err_callback(message):
     raise GeneratorError(message)
 
 
-@view.view_config(route_name='ucw')
-def ucw(request):
+def process_request(request):
+    """Return the appropriate response data for a request
+
+    Returns a tuple of (template, params) representing the appropriate
+    data to put in a response to request.
+    """
     # Remove unset keys so we can use .get() to set defaults
     params = {k: v for k, v in request.params.items() if v}
     # If generating advanced values, ignore any advanced values passed in
@@ -82,6 +86,7 @@ def ucw(request):
         t = env.get_template('generate.jinja2')
     else:
         t = env.get_template('ucw.jinja2')
+
     values = dict(default_basic)
     values['error'] = ''
     for k, v in values.items():
@@ -97,28 +102,34 @@ def ucw(request):
         values['local_ip'] = params.get('local_ip',
                                         '%s/%s' % (str(cidr[1]),
                                                    cidr.prefixlen))
-        values['network_gateway'] = params.get('network_gateway', cidr[1])
+        values['network_gateway'] = params.get('network_gateway', str(cidr[1]))
         values['undercloud_public_vip'] = params.get('undercloud_public_vip',
-                                                     cidr[2])
+                                                     str(cidr[2]))
         values['undercloud_admin_vip'] = params.get('undercloud_admin_vip',
-                                                    cidr[3])
+                                                    str(cidr[3]))
         # 4 to allow room for two undercloud vips
         dhcp_start = 1 + undercloud_ips
-        values['dhcp_start'] = params.get('dhcp_start', cidr[dhcp_start])
+        values['dhcp_start'] = params.get('dhcp_start', str(cidr[dhcp_start]))
         dhcp_end = dhcp_start + int(values['node_count']) + virtual_ips - 1
-        values['dhcp_end'] = params.get('dhcp_end', cidr[dhcp_end])
+        values['dhcp_end'] = params.get('dhcp_end', str(cidr[dhcp_end]))
         inspection_start = dhcp_end + 1
         values['inspection_start'] = params.get('inspection_start',
-                                                cidr[inspection_start])
+                                                str(cidr[inspection_start]))
         inspection_end = inspection_start + int(values['node_count']) - 1
         values['inspection_end'] = params.get('inspection_end',
-                                              cidr[inspection_end])
+                                              str(cidr[inspection_end]))
         values['masquerade_network'] = values['network_cidr']
         values['config'] = config_template.replace('\n', '<br>') % values
         validator.validate_config(values, err_callback)
     except GeneratorError as e:
         values['error'] = str(e)
-    return response.Response(t.render(**values))
+    return t, values
+
+
+@view.view_config(route_name='ucw')
+def ucw(request):
+    template, params = process_request(request)
+    return response.Response(template.render(**params))
 
 if __name__ == '__main__':
     conf = config.Configurator()
