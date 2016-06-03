@@ -22,6 +22,8 @@ def all_params():
             'network_gateway': '10.0.0.254',
             'undercloud_public_vip': '10.0.0.11',
             'undercloud_admin_vip': '10.0.0.12',
+            'undercloud_service_certificate':
+                '/etc/pki/instack-certs/undercloud.pem',
             }
 
 class TestProcessRequest(unittest.TestCase):
@@ -48,6 +50,7 @@ class TestProcessRequest(unittest.TestCase):
         self.assertEqual('192.0.2.1', params['network_gateway'])
         self.assertEqual('192.0.2.2', params['undercloud_public_vip'])
         self.assertEqual('192.0.2.3', params['undercloud_admin_vip'])
+        self.assertEqual('', params['undercloud_service_certificate'])
         self.assertEqual('', params['error'])
 
     def test_process_request(self):
