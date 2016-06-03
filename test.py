@@ -14,6 +14,7 @@ def all_params():
             'node_count': '25',
             'hostname': 'uc-prod.tripleo.org',
             'local_ip': '10.0.0.10/24',
+            'local_mtu': '9000',
             'dhcp_start': '10.0.0.20',
             'dhcp_end': '10.0.0.60',
             'inspection_start': '10.0.0.100',
@@ -35,6 +36,7 @@ class TestProcessRequest(unittest.TestCase):
 
     def _assert_defaults(self, params):
         self.assertEqual('eth1', params['local_interface'])
+        self.assertEqual('1500', params['local_mtu'])
         self.assertEqual('192.0.2.0/24', params['network_cidr'])
         self.assertEqual('2', params['node_count'])
         self.assertEqual('undercloud.localdomain', params['hostname'])

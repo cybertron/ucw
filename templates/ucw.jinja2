@@ -64,10 +64,13 @@ function ood()
         <td colspan='2'><center><h3>Advanced Settings</h3></center></td>
     </tr>
     <tr>
-        <td>Hostname</td> <td><input type='text' name='hostname' value="{{hostname}}"></td>
+        <td>Hostname<sup>M</sup></td> <td><input type='text' name='hostname' value="{{hostname}}"></td>
     </tr>
     <tr>
         <td>Local IP</td> <td><input type='text' name='local_ip' value="{{local_ip}}"></td>
+    </tr>
+    <tr>
+        <td>Local MTU<sup>N</sup></td> <td><input type='number' name='local_mtu' value="{{local_mtu}}"></td>
     </tr>
     <tr>
         <td>Network Gateway</td> <td><input type='text' name='network_gateway' value="{{network_gateway}}"></td>
@@ -85,16 +88,19 @@ function ood()
         <td>Provisioning DHCP End</td> <td><input type='text' name='dhcp_end' value="{{dhcp_end}}"></td>
     </tr>
     <tr>
-        <td>Inspection* DHCP Start</td> <td><input type='text' name='inspection_start' value="{{inspection_start}}"></td>
+        <td>Inspection<sup>1</sup> DHCP Start</td> <td><input type='text' name='inspection_start' value="{{inspection_start}}"></td>
     </tr>
     <tr>
-        <td>Inspection* DHCP End</td> <td><input type='text' name='inspection_end' value="{{inspection_end}}"></td>
+        <td>Inspection<sup>1</sup> DHCP End</td> <td><input type='text' name='inspection_end' value="{{inspection_end}}"></td>
     </tr>
      <tr>
         <td colspan='2'><center><input type='submit' value='Generate Configuration' name='generate'></center></td>
     </tr>
     <tr>
-        <td colspan='2'>* Inspection was named Discovery in previous versions</td>
+        <td colspan='2'><sup>1</sup>: Inspection was named Discovery in previous versions<br>
+                        <sup>M</sup>: This option is only effective starting in Mitaka<br>
+                        <sup>N</sup>: This option is only effective starting in Newton
+        </td>
     </tr>
 {% endif %}
 </table>
