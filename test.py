@@ -24,6 +24,7 @@ def all_params():
             'undercloud_admin_vip': '10.0.0.12',
             'undercloud_service_certificate':
                 '/etc/pki/instack-certs/undercloud.pem',
+            'generate_service_certificate': 'True',
             }
 
 class TestProcessRequest(unittest.TestCase):
@@ -36,12 +37,10 @@ class TestProcessRequest(unittest.TestCase):
         self.assertEqual('templates/ucw.jinja2', t.filename)
         return params
 
-    def _assert_defaults(self, params):
+    def _assert_overwritten_params(self, params):
         self.assertEqual('eth1', params['local_interface'])
-        self.assertEqual('1500', params['local_mtu'])
         self.assertEqual('192.168.0.0/24', params['network_cidr'])
         self.assertEqual('2', params['node_count'])
-        self.assertEqual('undercloud.localdomain', params['hostname'])
         self.assertEqual('192.168.0.1/24', params['local_ip'])
         self.assertEqual('192.168.0.4', params['dhcp_start'])
         self.assertEqual('192.168.0.15', params['dhcp_end'])
@@ -50,6 +49,18 @@ class TestProcessRequest(unittest.TestCase):
         self.assertEqual('192.168.0.1', params['network_gateway'])
         self.assertEqual('192.168.0.2', params['undercloud_public_vip'])
         self.assertEqual('192.168.0.3', params['undercloud_admin_vip'])
+
+    def _assert_kept_params(self, params):
+        self.assertEqual('9000', params['local_mtu'])
+        self.assertEqual('uc-prod.tripleo.org', params['hostname'])
+        self.assertEqual('/etc/pki/instack-certs/undercloud.pem',
+                         params['undercloud_service_certificate'])
+        self.assertEqual('True', params['generate_service_certificate'])
+
+    def _assert_defaults(self, params):
+        self._assert_overwritten_params(params)
+        self.assertEqual('1500', params['local_mtu'])
+        self.assertEqual('undercloud.localdomain', params['hostname'])
         self.assertEqual('', params['undercloud_service_certificate'])
         self.assertEqual('', params['error'])
 
@@ -89,7 +100,8 @@ class TestProcessRequest(unittest.TestCase):
                                          'genadv': 'Generate Advanced',
                                          })
         params = self._test_params()
-        self._assert_defaults(params)
+        self._assert_overwritten_params(params)
+        self._assert_kept_params(params)
 
     def test_insufficient_ips(self):
         self.mock_request.params = {'local_interface': 'p9p1',
@@ -118,7 +130,25 @@ class TestProcessRequest(unittest.TestCase):
     def test_view(self):
         response = app.ucw(self.mock_request)
         self.assertIn("<td>Provisioning Interface</td> <td><input type='text' "
-                      "name='local_interface' value=\"eth1\"></td>",
+                      "name='local_interface' value=\"eth1\" title='Network "
+                      "interface on the Undercloud that will be handling the "
+                      "PXE boots and DHCP for Overcloud instances.'></td>",
+                      response.body)
+
+    def test_gen_cert(self):
+        self.mock_request.params = all_params()
+        self.mock_request.params['generate_service_certificate'] = 'True'
+        response = app.ucw(self.mock_request)
+        self.assertIn("<td>Generate SSL Certificate</td> <td><input "
+                      "type='checkbox' name='generate_service_certificate' "
+                      "value='True' checked",
+                      response.body)
+
+    def test_no_gen_cert(self):
+        response = app.ucw(self.mock_request)
+        self.assertIn("<td>Generate SSL Certificate</td> <td><input "
+                      "type='checkbox' name='generate_service_certificate' "
+                      "value='True'  title=",
                       response.body)
 
 if __name__ == '__main__':

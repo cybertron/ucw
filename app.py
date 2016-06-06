@@ -41,6 +41,7 @@ network_gateway = %(network_gateway)s
 undercloud_public_vip = %(undercloud_public_vip)s
 undercloud_admin_vip = %(undercloud_admin_vip)s
 undercloud_service_certificate = %(undercloud_service_certificate)s
+generate_service_certificate = %(generate_service_certificate)s
 dhcp_start = %(dhcp_start)s
 dhcp_end = %(dhcp_end)s
 inspection_iprange = %(inspection_start)s,%(inspection_end)s
@@ -51,11 +52,13 @@ discovery_iprange = %(inspection_start)s,%(inspection_end)s
 default_basic = {'local_interface': 'eth1',
                  'network_cidr': '192.168.0.0/24',
                  'node_count': '2'}
-advanced_keys = ['hostname', 'local_ip', 'dhcp_start', 'dhcp_end',
-                 'inspection_start', 'inspection_end',
-                 'network_gateway', 'undercloud_public_vip',
-                 'undercloud_admin_vip', 'local_mtu',
-                 'undercloud_service_certificate']
+# Keys that should be overwritten by Generate Advanced
+advanced_overwrite = ['local_ip', 'dhcp_start', 'dhcp_end',
+                      'inspection_start', 'inspection_end',
+                      'network_gateway', 'undercloud_public_vip',
+                      'undercloud_admin_vip',
+                      ]
+
 # NOTE(bnemec): Adding an arbitrary 10 to the node count, to allow
 # for virtual ips.  This may not be accurate for some setups.
 virtual_ips = 10
@@ -82,7 +85,8 @@ def process_request(request):
     # If generating advanced values, ignore any advanced values passed in
     # as part of the request
     if 'genadv' in params:
-        params = {k: v for k, v in params.items() if k not in advanced_keys}
+        params = {k: v for k, v in params.items()
+                  if k not in advanced_overwrite}
 
     loader = jinja2.FileSystemLoader('templates')
     env = jinja2.Environment(loader=loader)
@@ -130,6 +134,8 @@ def process_request(request):
         values['masquerade_network'] = values['network_cidr']
         values['undercloud_service_certificate'] = params.get(
             'undercloud_service_certificate', '')
+        values['generate_service_certificate'] = params.get(
+            'generate_service_certificate', 'False')
         values['config'] = config_template.replace('\n', '<br>') % values
         validator.validate_config(values, err_callback)
     except GeneratorError as e:
