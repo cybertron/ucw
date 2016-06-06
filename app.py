@@ -48,7 +48,7 @@ inspection_iprange = %(inspection_start)s,%(inspection_end)s
 discovery_iprange = %(inspection_start)s,%(inspection_end)s
 """
 default_basic = {'local_interface': 'eth1',
-                 'network_cidr': '192.0.2.0/24',
+                 'network_cidr': '192.168.0.0/24',
                  'node_count': '2'}
 advanced_keys = ['hostname', 'local_ip', 'dhcp_start', 'dhcp_end',
                  'inspection_start', 'inspection_end',
