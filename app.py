@@ -12,6 +12,7 @@ if 'OPENSHIFT_PYTHON_DIR' in os.environ:
         pass
 
 # requires: pyramid, netaddr, jinja2
+import json
 import sys
 # hack to make sure we can load wsgi.py as a module in this class
 sys.path.insert(0, os.path.dirname(__file__))
@@ -95,6 +96,10 @@ def process_request(request):
     for k, v in values.items():
         if k in params:
             values[k] = params[k]
+    # Populate descriptions
+    with open('opt-descriptions.json') as f:
+        descriptions = json.loads(f.read())
+        values.update(descriptions)
     try:
         cidr = netaddr.IPNetwork(values['network_cidr'])
         if (len(cidr) < int(values['node_count']) * 2 + virtual_ips +
