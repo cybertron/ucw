@@ -97,7 +97,7 @@ function ood()
         <td>SSL Certificate</td> <td><input type='text' name='undercloud_service_certificate' value="{{undercloud_service_certificate}}" title='{{DEFAULT.undercloud_service_certificate}}'></td>
     </tr>
     <tr>
-        <td>Generate SSL Certificate</td> <td><input type='checkbox' name='generate_service_certificate' value='True' {% if generate_service_certificate == "True" -%} checked {%- endif %} title="{{DEFAULT.generate_service_certificate}}"></td>
+        <td>Generate SSL Certificate<sup>N</sup></td> <td><input type='checkbox' name='generate_service_certificate' value='True' {% if generate_service_certificate == "True" -%} checked {%- endif %} title="{{DEFAULT.generate_service_certificate}}"></td>
     </tr>
      <tr>
         <td colspan='2'><center><input type='submit' value='Generate Configuration' name='generate'></center></td>

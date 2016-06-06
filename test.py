@@ -139,15 +139,17 @@ class TestProcessRequest(unittest.TestCase):
         self.mock_request.params = all_params()
         self.mock_request.params['generate_service_certificate'] = 'True'
         response = app.ucw(self.mock_request)
-        self.assertIn("<td>Generate SSL Certificate</td> <td><input "
-                      "type='checkbox' name='generate_service_certificate' "
+        self.assertIn("<td>Generate SSL Certificate<sup>N</sup></td> "
+                      "<td><input type='checkbox' "
+                      "name='generate_service_certificate' "
                       "value='True' checked",
                       response.body)
 
     def test_no_gen_cert(self):
         response = app.ucw(self.mock_request)
-        self.assertIn("<td>Generate SSL Certificate</td> <td><input "
-                      "type='checkbox' name='generate_service_certificate' "
+        self.assertIn("<td>Generate SSL Certificate<sup>N</sup></td> "
+                      "<td><input type='checkbox' "
+                      "name='generate_service_certificate' "
                       "value='True'  title=",
                       response.body)
 
