@@ -42,6 +42,7 @@ undercloud_public_vip = %(undercloud_public_vip)s
 undercloud_admin_vip = %(undercloud_admin_vip)s
 undercloud_service_certificate = %(undercloud_service_certificate)s
 generate_service_certificate = %(generate_service_certificate)s
+scheduler_max_attempts = %(scheduler_max_attempts)s
 dhcp_start = %(dhcp_start)s
 dhcp_end = %(dhcp_end)s
 inspection_iprange = %(inspection_start)s,%(inspection_end)s
@@ -136,6 +137,13 @@ def process_request(request):
             'undercloud_service_certificate', '')
         values['generate_service_certificate'] = params.get(
             'generate_service_certificate', 'False')
+        # NOTE(bnemec): Clamping to a minimum of 10.  I'm not sure this is
+        # necessary, but since we default to 30 for this opt I think it's
+        # safe to set a lower bound.
+        values['scheduler_max_attempts'] = str(max(10,
+                                                   int(values['node_count'])))
+
+        # This must happen after all the other values have been set
         values['config'] = config_template.replace('\n', '<br>') % values
         validator.validate_config(values, err_callback)
     except GeneratorError as e:

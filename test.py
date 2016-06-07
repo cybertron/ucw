@@ -153,5 +153,15 @@ class TestProcessRequest(unittest.TestCase):
                       "value='True'  title=",
                       response.body)
 
+    def test_scheduler_attempts(self):
+        self.mock_request.params = {'node_count': '20'}
+        params = self._test_params()
+        self.assertEqual('20', params['scheduler_max_attempts'])
+
+    def test_scheduler_attempts_min(self):
+        self.mock_request.params = {'node_count': '2'}
+        params = self._test_params()
+        self.assertEqual('10', params['scheduler_max_attempts'])
+
 if __name__ == '__main__':
     unittest.main()
