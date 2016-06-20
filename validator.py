@@ -52,8 +52,9 @@ def _validate_value_formats(params, error_callback):
                    'Value must be in CIDR format.' %
                    (params['local_ip'], str(e)))
         error_callback(message)
-    if '.' not in params['hostname']:
-        message = 'Hostname "%s" is not fully qualified.' % params['hostname']
+    if '.' not in params['undercloud_hostname']:
+        message = ('Hostname "%s" is not fully qualified.' %
+                   params['undercloud_hostname'])
         error_callback(message)
 
 

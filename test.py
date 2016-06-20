@@ -12,7 +12,7 @@ def all_params():
     return {'local_interface': 'p9p1',
             'network_cidr': '10.0.0.0/24',
             'node_count': '25',
-            'hostname': 'uc-prod.tripleo.org',
+            'undercloud_hostname': 'uc-prod.tripleo.org',
             'local_ip': '10.0.0.10/24',
             'local_mtu': '9000',
             'dhcp_start': '10.0.0.20',
@@ -52,7 +52,7 @@ class TestProcessRequest(unittest.TestCase):
 
     def _assert_kept_params(self, params):
         self.assertEqual('9000', params['local_mtu'])
-        self.assertEqual('uc-prod.tripleo.org', params['hostname'])
+        self.assertEqual('uc-prod.tripleo.org', params['undercloud_hostname'])
         self.assertEqual('/etc/pki/instack-certs/undercloud.pem',
                          params['undercloud_service_certificate'])
         self.assertEqual('True', params['generate_service_certificate'])
@@ -60,7 +60,8 @@ class TestProcessRequest(unittest.TestCase):
     def _assert_defaults(self, params):
         self._assert_overwritten_params(params)
         self.assertEqual('1500', params['local_mtu'])
-        self.assertEqual('undercloud.localdomain', params['hostname'])
+        self.assertEqual('undercloud.localdomain',
+                         params['undercloud_hostname'])
         self.assertEqual('', params['undercloud_service_certificate'])
         self.assertEqual('', params['error'])
 
