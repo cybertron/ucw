@@ -20,8 +20,8 @@ def all_params():
             'inspection_start': '10.0.0.100',
             'inspection_end': '10.0.0.130',
             'network_gateway': '10.0.0.254',
-            'undercloud_public_vip': '10.0.0.11',
-            'undercloud_admin_vip': '10.0.0.12',
+            'undercloud_public_host': '10.0.0.11',
+            'undercloud_admin_host': '10.0.0.12',
             'undercloud_service_certificate':
                 '/etc/pki/instack-certs/undercloud.pem',
             'generate_service_certificate': 'True',
@@ -47,8 +47,8 @@ class TestProcessRequest(unittest.TestCase):
         self.assertEqual('192.168.0.16', params['inspection_start'])
         self.assertEqual('192.168.0.17', params['inspection_end'])
         self.assertEqual('192.168.0.1', params['network_gateway'])
-        self.assertEqual('192.168.0.2', params['undercloud_public_vip'])
-        self.assertEqual('192.168.0.3', params['undercloud_admin_vip'])
+        self.assertEqual('192.168.0.2', params['undercloud_public_host'])
+        self.assertEqual('192.168.0.3', params['undercloud_admin_host'])
 
     def _assert_kept_params(self, params):
         self.assertEqual('9000', params['local_mtu'])

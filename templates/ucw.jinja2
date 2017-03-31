@@ -76,10 +76,10 @@ function ood()
         <td>Network Gateway</td> <td><input type='text' name='network_gateway' value="{{network_gateway}}" title='{{DEFAULT.network_gateway}}'></td>
     </tr>
     <tr>
-        <td>Public VIP</td> <td><input type='text' name='undercloud_public_vip' value="{{undercloud_public_vip}}" title='{{DEFAULT.undercloud_public_vip}}'></td>
+        <td>Public Host Address<sup>2</sup></td> <td><input type='text' name='undercloud_public_host' value="{{undercloud_public_host}}" title='{{DEFAULT.undercloud_public_host}}'></td>
     </tr>
     <tr>
-        <td>Admin VIP</td> <td><input type='text' name='undercloud_admin_vip' value="{{undercloud_admin_vip}}" title='{{DEFAULT.undercloud_admin_vip}}'></td>
+        <td>Admin Host Address<sup>2</sup></td> <td><input type='text' name='undercloud_admin_host' value="{{undercloud_admin_host}}" title='{{DEFAULT.undercloud_admin_host}}'></td>
     </tr>
     <tr>
         <td>Provisioning DHCP Start</td> <td><input type='text' name='dhcp_start' value="{{dhcp_start}}" title='{{DEFAULT.dhcp_start}}'></td>
@@ -102,14 +102,21 @@ function ood()
      <tr>
         <td colspan='2'><center><input type='submit' value='Generate Configuration' name='generate'></center></td>
     </tr>
+</table>
+<table class='sectionarea'>
     <tr>
-        <td colspan='2'><sup>1</sup>: Inspection was named Discovery in previous versions<br>
-                        <sup>M</sup>: This option is only effective starting in Mitaka<br>
-                        <sup>N</sup>: This option is only effective starting in Newton
+        <td><center><h3>Notes</h3></center></td>
+    </tr>
+    <tr>
+        <td>
+            <sup>1</sup>: Inspection was named Discovery in previous versions<br>
+            <sup>2</sup>: In previous releases these were explicitly VIPs, but they can now take a DNS address as well<br>
+            <sup>M</sup>: This option is only effective starting in Mitaka<br>
+            <sup>N</sup>: This option is only effective starting in Newton
         </td>
     </tr>
-{% endif %}
 </table>
+{% endif %}
 </form>
 </center>
 </body>

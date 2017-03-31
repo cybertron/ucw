@@ -38,17 +38,18 @@ network_cidr = %(network_cidr)s
 masquerade_network = %(masquerade_network)s
 local_ip = %(local_ip)s
 network_gateway = %(network_gateway)s
-undercloud_public_vip = %(undercloud_public_vip)s
-undercloud_admin_vip = %(undercloud_admin_vip)s
+undercloud_public_host = %(undercloud_public_host)s
+undercloud_admin_host = %(undercloud_admin_host)s
 undercloud_service_certificate = %(undercloud_service_certificate)s
 generate_service_certificate = %(generate_service_certificate)s
 scheduler_max_attempts = %(scheduler_max_attempts)s
 dhcp_start = %(dhcp_start)s
 dhcp_end = %(dhcp_end)s
 inspection_iprange = %(inspection_start)s,%(inspection_end)s
-# This option name is deprecated and only included for compatibility with
-# OSP director 7 installs.
+# Deprecated names for compatibility with older releases
 discovery_iprange = %(inspection_start)s,%(inspection_end)s
+undercloud_public_vip = %(undercloud_public_host)s
+undercloud_admin_vip = %(undercloud_admin_host)s
 """
 default_basic = {'local_interface': 'eth1',
                  'network_cidr': '192.168.0.0/24',
@@ -56,8 +57,8 @@ default_basic = {'local_interface': 'eth1',
 # Keys that should be overwritten by Generate Advanced
 advanced_overwrite = ['local_ip', 'dhcp_start', 'dhcp_end',
                       'inspection_start', 'inspection_end',
-                      'network_gateway', 'undercloud_public_vip',
-                      'undercloud_admin_vip',
+                      'network_gateway', 'undercloud_public_host',
+                      'undercloud_admin_host',
                       ]
 
 # NOTE(bnemec): Adding an arbitrary 10 to the node count, to allow
@@ -118,10 +119,10 @@ def process_request(request):
                                                    cidr.prefixlen))
         values['local_mtu'] = params.get('local_mtu', '1500')
         values['network_gateway'] = params.get('network_gateway', str(cidr[1]))
-        values['undercloud_public_vip'] = params.get('undercloud_public_vip',
-                                                     str(cidr[2]))
-        values['undercloud_admin_vip'] = params.get('undercloud_admin_vip',
-                                                    str(cidr[3]))
+        values['undercloud_public_host'] = params.get('undercloud_public_host',
+                                                      str(cidr[2]))
+        values['undercloud_admin_host'] = params.get('undercloud_admin_host',
+                                                     str(cidr[3]))
         # 4 to allow room for two undercloud vips
         dhcp_start = 1 + undercloud_ips
         values['dhcp_start'] = params.get('dhcp_start', str(cidr[dhcp_start]))
