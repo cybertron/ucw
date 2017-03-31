@@ -52,7 +52,7 @@ undercloud_public_vip = %(undercloud_public_host)s
 undercloud_admin_vip = %(undercloud_admin_host)s
 """
 default_basic = {'local_interface': 'eth1',
-                 'network_cidr': '192.168.0.0/24',
+                 'network_cidr': '192.168.24.0/24',
                  'node_count': '2'}
 # Keys that should be overwritten by Generate Advanced
 advanced_overwrite = ['local_ip', 'dhcp_start', 'dhcp_end',

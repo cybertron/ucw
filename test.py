@@ -39,16 +39,16 @@ class TestProcessRequest(unittest.TestCase):
 
     def _assert_overwritten_params(self, params):
         self.assertEqual('eth1', params['local_interface'])
-        self.assertEqual('192.168.0.0/24', params['network_cidr'])
+        self.assertEqual('192.168.24.0/24', params['network_cidr'])
         self.assertEqual('2', params['node_count'])
-        self.assertEqual('192.168.0.1/24', params['local_ip'])
-        self.assertEqual('192.168.0.4', params['dhcp_start'])
-        self.assertEqual('192.168.0.15', params['dhcp_end'])
-        self.assertEqual('192.168.0.16', params['inspection_start'])
-        self.assertEqual('192.168.0.17', params['inspection_end'])
-        self.assertEqual('192.168.0.1', params['network_gateway'])
-        self.assertEqual('192.168.0.2', params['undercloud_public_host'])
-        self.assertEqual('192.168.0.3', params['undercloud_admin_host'])
+        self.assertEqual('192.168.24.1/24', params['local_ip'])
+        self.assertEqual('192.168.24.4', params['dhcp_start'])
+        self.assertEqual('192.168.24.15', params['dhcp_end'])
+        self.assertEqual('192.168.24.16', params['inspection_start'])
+        self.assertEqual('192.168.24.17', params['inspection_end'])
+        self.assertEqual('192.168.24.1', params['network_gateway'])
+        self.assertEqual('192.168.24.2', params['undercloud_public_host'])
+        self.assertEqual('192.168.24.3', params['undercloud_admin_host'])
 
     def _assert_kept_params(self, params):
         self.assertEqual('9000', params['local_mtu'])
@@ -96,7 +96,7 @@ class TestProcessRequest(unittest.TestCase):
     def test_generate_advanced(self):
         self.mock_request.params = all_params()
         self.mock_request.params.update({'local_interface': 'eth1',
-                                         'network_cidr': '192.168.0.0/24',
+                                         'network_cidr': '192.168.24.0/24',
                                          'node_count': '2',
                                          'genadv': 'Generate Advanced',
                                          })
