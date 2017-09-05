@@ -131,9 +131,7 @@ class TestProcessRequest(unittest.TestCase):
     def test_view(self):
         response = app.ucw(self.mock_request)
         self.assertIn("<td>Provisioning Interface</td> <td><input type='text' "
-                      "name='local_interface' value=\"eth1\" title='Network "
-                      "interface on the Undercloud that will be handling the "
-                      "PXE boots and DHCP for Overcloud instances.'></td>",
+                      "name='local_interface' value=\"eth1\"></td>",
                       response.body)
 
     def test_gen_cert(self):
@@ -151,7 +149,7 @@ class TestProcessRequest(unittest.TestCase):
         self.assertIn("<td>Generate SSL Certificate<sup>N</sup></td> "
                       "<td><input type='checkbox' "
                       "name='generate_service_certificate' "
-                      "value='True'  title=",
+                      "value='True'",
                       response.body)
 
     def test_scheduler_attempts(self):
