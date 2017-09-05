@@ -39,14 +39,14 @@ function ood()
     <tr>
         <td colspan='2'><center><h3>Basic Settings</h3></center></td>
     </tr>
-    <tr>
-        <td>Provisioning Interface</td> <td><input type='text' name='local_interface' value="{{local_interface}}" title='{{DEFAULT.local_interface}}'></td>
+    <tr title='{{DEFAULT.local_interface}}'>
+        <td>Provisioning Interface</td> <td><input type='text' name='local_interface' value="{{local_interface}}"></td>
     </tr>
-    <tr>
-        <td>Provisioning CIDR</td> <td><input type='text' name='network_cidr' value='{{network_cidr}}' onchange='ood()' title='{{DEFAULT.network_cidr}}'></td>
+    <tr title='{{DEFAULT.network_cidr}}'>
+        <td>Provisioning CIDR</td> <td><input type='text' name='network_cidr' value='{{network_cidr}}' onchange='ood()'></td>
     </tr>
-    <tr>
-        <td>Overcloud Node Count</td> <td><input type='number' name='node_count' pattern="[0-9]*" inputmode="numeric" value='{{node_count}}' onchange='ood()' title='Maximum number of nodes expected to ever be in the deployed overcloud. This value is used to determine the necessary size of IP ranges.'></td>
+    <tr title='Maximum number of nodes expected to ever be in the deployed overcloud. This value is used to determine the necessary size of IP ranges.'>
+        <td>Overcloud Node Count</td> <td><input type='number' name='node_count' pattern="[0-9]*" inputmode="numeric" value='{{node_count}}' onchange='ood()'></td>
     </tr>
     <tr>
         <td colspan='2'><center><input type='submit' value='Generate Advanced' name='genadv'></center></td>
@@ -63,41 +63,41 @@ function ood()
     <tr>
         <td colspan='2'><center><h3>Advanced Settings</h3></center></td>
     </tr>
-    <tr>
-        <td>Hostname<sup>M</sup></td> <td><input type='text' name='undercloud_hostname' value="{{undercloud_hostname}}" title='{{DEFAULT.undercloud_hostname}}'></td>
+    <tr title='{{DEFAULT.undercloud_hostname}}'>
+        <td>Hostname<sup>M</sup></td> <td><input type='text' name='undercloud_hostname' value="{{undercloud_hostname}}"></td>
     </tr>
-    <tr>
-        <td>Local IP</td> <td><input type='text' name='local_ip' value="{{local_ip}}" title='{{DEFAULT.local_ip}}'></td>
+    <tr title='{{DEFAULT.local_ip}}'>
+        <td>Local IP</td> <td><input type='text' name='local_ip' value="{{local_ip}}"></td>
     </tr>
-    <tr>
-        <td>Local MTU<sup>N</sup></td> <td><input type='number' name='local_mtu' value="{{local_mtu}}" title='{{DEFAULT.local_mtu}}'></td>
+    <tr title='{{DEFAULT.local_mtu}}'>
+        <td>Local MTU<sup>N</sup></td> <td><input type='number' name='local_mtu' value="{{local_mtu}}"></td>
     </tr>
-    <tr>
-        <td>Network Gateway</td> <td><input type='text' name='network_gateway' value="{{network_gateway}}" title='{{DEFAULT.network_gateway}}'></td>
+    <tr title='{{DEFAULT.network_gateway}}'>
+        <td>Network Gateway</td> <td><input type='text' name='network_gateway' value="{{network_gateway}}"></td>
     </tr>
-    <tr>
-        <td>Public Host Address<sup>2</sup></td> <td><input type='text' name='undercloud_public_host' value="{{undercloud_public_host}}" title='{{DEFAULT.undercloud_public_host}}'></td>
+    <tr title='{{DEFAULT.undercloud_public_host}}'>
+        <td>Public Host Address<sup>2</sup></td> <td><input type='text' name='undercloud_public_host' value="{{undercloud_public_host}}"></td>
     </tr>
-    <tr>
-        <td>Admin Host Address<sup>2</sup></td> <td><input type='text' name='undercloud_admin_host' value="{{undercloud_admin_host}}" title='{{DEFAULT.undercloud_admin_host}}'></td>
+    <tr title='{{DEFAULT.undercloud_admin_host}}'>
+        <td>Admin Host Address<sup>2</sup></td> <td><input type='text' name='undercloud_admin_host' value="{{undercloud_admin_host}}"></td>
     </tr>
-    <tr>
-        <td>Provisioning DHCP Start</td> <td><input type='text' name='dhcp_start' value="{{dhcp_start}}" title='{{DEFAULT.dhcp_start}}'></td>
+    <tr title='{{DEFAULT.dhcp_start}}'>
+        <td>Provisioning DHCP Start</td> <td><input type='text' name='dhcp_start' value="{{dhcp_start}}"></td>
     </tr>
-    <tr>
-        <td>Provisioning DHCP End</td> <td><input type='text' name='dhcp_end' value="{{dhcp_end}}" title='{{DEFAULT.dhcp_end}}'></td>
+    <tr title='{{DEFAULT.dhcp_end}}'>
+        <td>Provisioning DHCP End</td> <td><input type='text' name='dhcp_end' value="{{dhcp_end}}"></td>
     </tr>
-    <tr>
-        <td>Inspection<sup>1</sup> DHCP Start</td> <td><input type='text' name='inspection_start' value="{{inspection_start}}" title='{{DEFAULT.inspection_iprange}}'></td>
+    <tr title='{{DEFAULT.inspection_iprange}}'>
+        <td>Inspection<sup>1</sup> DHCP Start</td> <td><input type='text' name='inspection_start' value="{{inspection_start}}"></td>
     </tr>
-    <tr>
-        <td>Inspection<sup>1</sup> DHCP End</td> <td><input type='text' name='inspection_end' value="{{inspection_end}}" title='{{DEFAULT.inspection_iprange}}'></td>
+    <tr title='{{DEFAULT.inspection_iprange}}'>
+        <td>Inspection<sup>1</sup> DHCP End</td> <td><input type='text' name='inspection_end' value="{{inspection_end}}"></td>
     </tr>
-    <tr>
-        <td>SSL Certificate</td> <td><input type='text' name='undercloud_service_certificate' value="{{undercloud_service_certificate}}" title='{{DEFAULT.undercloud_service_certificate}}'></td>
+    <tr title='{{DEFAULT.undercloud_service_certificate}}'>
+        <td>SSL Certificate</td> <td><input type='text' name='undercloud_service_certificate' value="{{undercloud_service_certificate}}"></td>
     </tr>
-    <tr>
-        <td>Generate SSL Certificate<sup>N</sup></td> <td><input type='checkbox' name='generate_service_certificate' value='True' {% if generate_service_certificate == "True" -%} checked {%- endif %} title="{{DEFAULT.generate_service_certificate}}"></td>
+    <tr title="{{DEFAULT.generate_service_certificate}}">
+        <td>Generate SSL Certificate<sup>N</sup></td> <td><input type='checkbox' name='generate_service_certificate' value='True' {% if generate_service_certificate == "True" -%} checked {%- endif %}></td>
     </tr>
      <tr>
         <td colspan='2'><center><input type='submit' value='Generate Configuration' name='generate'></center></td>
