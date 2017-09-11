@@ -148,7 +148,7 @@ def process_request(request):
         # This must happen after all the other values have been set
         values['config'] = config_template.replace('\n', '<br>') % values
         validator.validate_config(values, err_callback)
-    except GeneratorError as e:
+    except Exception as e:
         values['error'] = str(e)
     return t, values
 

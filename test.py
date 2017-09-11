@@ -122,6 +122,12 @@ class TestProcessRequest(unittest.TestCase):
                          (params['dhcp_start'], params['dhcp_end']),
                          params['error'])
 
+    @mock.patch('netaddr.IPNetwork')
+    def test_unexpected_exception(self, mock_ipn):
+        mock_ipn.side_effect = Exception('Unexpected')
+        params = self._test_params()
+        self.assertEqual('Unexpected', params['error'])
+
     def test_generate(self):
         self.mock_request.params = all_params()
         self.mock_request.params['generate'] = 'Generate Configuration'
