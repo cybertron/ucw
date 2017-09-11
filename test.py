@@ -162,5 +162,11 @@ class TestProcessRequest(unittest.TestCase):
         params = self._test_params()
         self.assertEqual('10', params['scheduler_max_attempts'])
 
+    def test_ipv6(self):
+        self.mock_request.params = {'node_count': '2',
+                                    'network_cidr': '2000::1/64'}
+        params = self._test_params()
+        self.assertEqual('2000::1', params['network_gateway'])
+
 if __name__ == '__main__':
     unittest.main()

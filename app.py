@@ -108,7 +108,7 @@ def process_request(request):
         values.update(descriptions)
     try:
         cidr = netaddr.IPNetwork(values['network_cidr'])
-        if (len(cidr) < int(values['node_count']) * 2 + virtual_ips +
+        if (cidr.size < int(values['node_count']) * 2 + virtual_ips +
                 undercloud_ips + 1):
             raise GeneratorError('Insufficient addresses available in '
                                  'provisioning CIDR')
